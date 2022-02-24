@@ -4,7 +4,6 @@ import { Server } from 'socket.io';
 import { EventHandlersRegistrator } from "./services/EventHandlersRegistrator";
 import { TestHandler } from "./handlers/testHandler";
 
-
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
