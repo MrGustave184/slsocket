@@ -2,8 +2,6 @@ import { Server, Socket } from 'socket.io';
 import { EventHandler } from "./../services/EventHandler";
 
 export class TestHandler implements EventHandler{
-    constructor() {}
-
     greetUser() {
         console.log('hello world!');
     }
