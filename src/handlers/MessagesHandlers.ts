@@ -1,14 +1,13 @@
 import { Server, Socket } from 'socket.io';
 import { EventHandler } from "../services/EventHandler";
 
-export class TestHandler implements EventHandler {
-    greetUser(payload: string, socket: Socket): string {
+export class MessagesHandlers implements EventHandler {
+    greetUser(payload: string, socket: Socket): void {
         console.log(payload);
         socket.emit('message-redirect', payload);
-        return payload;
     }
 
-    register(io: Server, socket: Socket, payload: string): void {
+    register(io: Server, socket: Socket): void {
         socket.on('test:test', this.greetUser);
     }
 }

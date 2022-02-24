@@ -14,10 +14,17 @@
         // the "test" namespace
         const testSocket = io('http://localhost:3000/tests');
         testSocket.on("connect", () => {
-            console.log(testSocket.id); // x8WIv7-mJelg7on_ALbx
+            console.log(testSocket.id);
 
-            testSocket.emit('test:test', 'hello world!');
+            // testSocket.emit('test:test', 'payload message');
+            // testSocket.to('test room').emit('test:test', 'payload message');
+
+            testSocket.on('message-redirect', (payload) => {
+                console.log(payload);
+            });
         });
+
+
     </script>
 </body>
 </html>
