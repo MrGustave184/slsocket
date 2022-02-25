@@ -12,13 +12,14 @@
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script>
         // the "test" namespace
-        const testSocket = io('http://localhost:3000/tests');
+        const testSocket = io('http://localhost:3000/ratingWidget');
+        // const testSocket = io('http://localhost:3000/tests');
         testSocket.on("connect", () => {
             console.log(testSocket.id);
 
-            // testSocket.emit('test:test', 'payload message');
+            testSocket.emit('test:test', 'payload message');
             // testSocket.to('test room').emit('test:test', 'payload message');
-
+            testSocket.emit('widget:change', 'next session please');
             testSocket.on('message-redirect', (payload) => {
                 console.log(payload);
             });
