@@ -1,6 +1,8 @@
 import { Server, Socket } from 'socket.io';
-import { ratingWidgetEventsHandler } from '../eventHandlers/ratingWidgetEventHandlers';
+import { ratingWidgetEvents } from '../eventHandlers/ratingWidgetEvents';
+import { widgetNotifications } from "../eventHandlers/widgetNotifications";
 
 export const ratingWidgetConnectionHandler = (socket: Socket, io: Server) => {
-    ratingWidgetEventsHandler(socket, io);
+    ratingWidgetEvents(socket, io);
+    widgetNotifications(socket, io);
 }

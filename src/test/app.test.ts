@@ -1,45 +1,46 @@
-// import { createServer } from "http";
-// import { Server, Socket } from "socket.io";
-// // import { Client } from "socket.io/dist/client";
+import { createServer }from "http";
+import { Server }from "socket.io";
+import { io } from "socket.io-client";
+import { httpServer } from '../app';
 
-// describe("my awesome project", () => {
-//   let io: Server;
-//   let serverSocket: Socket;
-//   let clientSocket: Socket;
+describe("my awesome project", () => {
+  let io: any, serverSocket: any, clientSocket: any;
 
-//   beforeAll((done) => {
-//     const httpServer = createServer();
-//     io = new Server(httpServer);
-//     httpServer.listen(() => {
-//       const port = 3000;
-//       clientSocket = new Client(`http://localhost:${port}`);
-//       io.on("connection", (socket) => {
-//         serverSocket = socket;
-//       });
-//       clientSocket.on("connect", done);
-//     });
-//   });
+  beforeAll((done) => {
+    // const httpServer = createServer();
+    io = new Server(httpServer);
+    if(httpServer) {
+        httpServer.listen(() => {
+            const port = '6000';
+            clientSocket = io('http://localhost:3000/ratingWidget');
+            io.on("connection", (socket: any) => {
+              serverSocket = socket;
+            });
+            clientSocket.on("connect", done);
+          });
+    }
+  });
 
-//   afterAll(() => {
-//     io.close();
-//     clientSocket.close();
-//   });
+  afterAll(() => {
+    io.close();
+    clientSocket.close();
+  });
 
-//   test("should work", (done) => {
-//     clientSocket.on("hello", (arg) => {
-//       expect(arg).toBe("world");
-//       done();
-//     });
-//     serverSocket.emit("hello", "world");
-//   });
+  test("should work", (done) => {
+    clientSocket.on("hello", (arg: any) => {
+      expect(arg).toBe("world");
+      done();
+    });
+    serverSocket.emit("hello", "world");
+  });
 
-//   test("should work (with ack)", (done) => {
-//     serverSocket.on("hi", (cb) => {
-//       cb("hola");
-//     });
-//     clientSocket.emit("hi", (arg) => {
-//       expect(arg).toBe("hola");
-//       done();
-//     });
-//   });
-// });
+  test("should work (with ack)", (done) => {
+    serverSocket.on("hi", (cb: any) => {
+      cb("hola");
+    });
+    clientSocket.emit("hi", (arg: any) => {
+      expect(arg).toBe("hola");
+      done();
+    });
+  });
+});

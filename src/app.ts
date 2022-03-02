@@ -2,8 +2,7 @@ import express from "express";
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import { ratingWidgetConnectionHandler } from "./socket/connectionHandlers/ratingWidgetConnectionHandler";
-import { testsConnectionHandler } from "./socket/connectionHandlers/testsConnectionHandler";
-import { widgetNotifications } from "./socket/eventHandlers/widgetNotifications";
+import { testsConnectionHandler } from "./socket/connectionHandlers/tests";
 
 const app = express();
 const httpServer = createServer(app);
@@ -26,7 +25,6 @@ io.of('/tests').on('connection', (socket: Socket) => {
 
 io.of('/ratingWidget').on('connection', (socket: Socket) => {
     ratingWidgetConnectionHandler(socket, io);
-    widgetNotifications(socket, io);
 });
 
 export { httpServer }
