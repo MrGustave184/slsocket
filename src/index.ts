@@ -1,3 +1,8 @@
+import dotenv from 'dotenv';
 import { httpServer } from './app';
 
-httpServer.listen(3000);
+dotenv.config({ path: __dirname + '/../.env' });
+
+const PORT = process.env.PORT || 3000;
+
+httpServer.listen(PORT);

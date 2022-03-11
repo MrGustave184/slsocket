@@ -1,8 +1,10 @@
+import dotenv from 'dotenv';
 import express from "express";
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import { ratingWidgetConnectionHandler } from "./socket/connectionHandlers/ratingWidgetConnectionHandler";
-import { testsConnectionHandler } from "./socket/connectionHandlers/tests";
+
+dotenv.config({ path: __dirname + '/../.env' });
 
 const app = express();
 const httpServer = createServer(app);
@@ -17,10 +19,6 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
-});
-
-io.of('/tests').on('connection', (socket: Socket) => {
-    testsConnectionHandler(socket, io);
 });
 
 io.of('/ratingWidget').on('connection', (socket: Socket) => {
