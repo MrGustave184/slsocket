@@ -21,19 +21,21 @@ const ratingWidgetEvents = (socket: Socket, io: Server) => {
 
     socket.on('widget:change', async (payload: ActiveSession) => {
         // validate payload.room
+        let activeSession = null;
 
         try {
-            let activeSession = await ActiveSessionModel.findOne({
+            activeSession = await ActiveSessionModel.findOne({
                 clientId: payload.clientId,
                 projectId: payload.projectId,
                 room: payload.room
             });
 
             if (activeSession) {
-                activeSession.set({ sessionId: payload.sessionId });
+                activeSession.sessionId = payload.sessionId;
+                await activeSession.save();
             } else {
-                const newActiveSession = new ActiveSessionModel(payload);
-                await newActiveSession.save();
+                activeSession = new ActiveSessionModel(payload);
+                await activeSession.save();
             }
 
             io.of('/ratingWidget').in([payload.room, adminRoom]).emit('widget:change', activeSession);

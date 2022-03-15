@@ -1,0 +1,24 @@
+import express, { Request, Response } from "express";
+import { query, validationResult } from "express-validator";
+import { ActiveSessionModel } from "../models/activeSession";
+
+const router = express.Router();
+
+router.get('/api/activeSessions',
+    query('clientId').not().isEmpty().withMessage('please provide a valid client ID'),
+    query('projectId').not().isEmpty().withMessage('please provide a valid project ID'),
+    async (req: Request, res: Response) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log(errors.array())
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { clientId, projectId } = req.query;
+        const activeSessions = await ActiveSessionModel.find({clientId: clientId, projectId: projectId});
+
+        res.send({ activeSessions });
+    }
+)
+
+export { router as activeSessionsRouter }
