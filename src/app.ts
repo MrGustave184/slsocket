@@ -5,6 +5,8 @@ import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import { ratingWidgetConnectionHandler } from "./socket/connectionHandlers/ratingWidgetConnectionHandler";
 import { activeSessionsRouter } from './routes/activeSessions';
+import { activeSessionByRoomRouter } from './routes/activeSessionByRoom';
+
 
 dotenv.config({ path: __dirname + '/../.env' });
 
@@ -26,6 +28,7 @@ app.use(cors());
 
 // routes
 app.use(activeSessionsRouter);
+app.use(activeSessionByRoomRouter);
 
 io.of('/ratingWidget').on('connection', (socket: Socket) => {
     ratingWidgetConnectionHandler(socket, io);
