@@ -22,4 +22,4 @@ router.get('/api/activeSessionByRoom',
     }
 )
 
-export { router as activeSessionsRouter }
+export { router as activeSessionByRoomRouter }
